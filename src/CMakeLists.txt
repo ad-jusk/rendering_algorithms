@@ -1,0 +1,1 @@
+add_library(graphics Buffer.cpp TgaBuffer.cpp)
