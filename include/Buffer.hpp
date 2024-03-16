@@ -17,6 +17,7 @@ class Buffer {
         std::vector<uint32_t> pixels;
 
     public:
+        Buffer();
         explicit Buffer(int width, int height, uint32_t color);
         void setColor(uint32_t color);
         void setSize(int width, int height);
@@ -24,5 +25,5 @@ class Buffer {
         int getHeight();
         uint32_t getColor();
         void setPixel(int x, int y, uint32_t color);
-        virtual void saveToFile(const char* filename) = 0;
+        virtual void saveToFile(const char* filename) {};
 };

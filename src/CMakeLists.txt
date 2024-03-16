@@ -1,1 +1,1 @@
-add_library(graphics Buffer.cpp TgaBuffer.cpp)
+add_library(graphics Buffer.cpp TgaBuffer.cpp Rasterizer.cpp)
