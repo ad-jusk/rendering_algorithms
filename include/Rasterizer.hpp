@@ -7,6 +7,8 @@ class Rasterizer {
 
     private:
         Buffer* buffer;
+        float calculateEdgeFunction(Point& A, Point& B, Point& C);
+        bool pointsInBounds(std::vector<Point>& points);
     
     public:
         explicit Rasterizer(Buffer* buffer);
