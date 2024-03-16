@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 #include <cstdint>
 
 #define BUFFER_WIDTH 500
@@ -13,6 +14,7 @@ class Buffer {
     protected:
         int width, height;
         uint32_t color;
+        std::vector<uint32_t> pixels;
 
     public:
         explicit Buffer(int width, int height, uint32_t color);
@@ -21,5 +23,6 @@ class Buffer {
         int getWidth();
         int getHeight();
         uint32_t getColor();
+        void setPixel(int x, int y, uint32_t color);
         virtual void saveToFile(const char* filename) = 0;
 };

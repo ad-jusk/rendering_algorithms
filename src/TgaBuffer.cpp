@@ -19,13 +19,15 @@ void TgaBuffer::saveToFile(const char* filename) {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                uint8_t red = (color >> 16) & 0xFF;
-                uint8_t green = (color >> 8) & 0xFF;
-                uint8_t blue = color & 0xFF;
+                uint32_t pixel = pixels.at(y * width + x);
+                uint8_t red = (pixel >> 16) & 0xFF;
+                uint8_t green = (pixel >> 8) & 0xFF;
+                uint8_t blue = pixel & 0xFF;
                 fputc(blue, file);
                 fputc(green, file);
                 fputc(red, file);
             }
         }
+
         fclose(file);
 }
