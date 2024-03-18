@@ -10,13 +10,13 @@ int main() {
     TgaBuffer buffer(BUFFER_WIDTH, BUFFER_HEIGHT, COLOR);
     Rasterizer rasterizer(&buffer);
 
-    Point A(10, 20);
-    Point B(300, 15);
-    Point C(90, 100);
+    Point A(-1.f, -1.f, 0.f);
+    Point B(1.f, -1.f, 0.f);
+    Point C(0.f, 0.f, 0.f);
 
-    Point D(400, 10);
-    Point E(300, 450);
-    Point F(100, 400);
+    Point D(0.f, 0.f, 0.f);
+    Point E(0.3f, 0.3f, 0.0f);
+    Point F(-0.3f, 0.3f, 0.f);
 
     rasterizer.drawTriangle(A, B, C);
     rasterizer.drawTriangle(D, E, F);

@@ -13,4 +13,5 @@ class Rasterizer {
     public:
         explicit Rasterizer(Buffer* buffer);
         void drawTriangle(Point& A, Point& B, Point& C);
+        void changeCanonicToViewport(Point& p);
 };

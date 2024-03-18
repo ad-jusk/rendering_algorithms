@@ -6,6 +6,10 @@ Rasterizer::Rasterizer(Buffer* buffer) {
 
 void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
 
+    changeCanonicToViewport(A);
+    changeCanonicToViewport(B);
+    changeCanonicToViewport(C);
+
     std::vector<Point> points {A, B, C};
 
     if(!pointsInBounds(points)) {
@@ -50,12 +54,19 @@ float Rasterizer::calculateEdgeFunction(Point& A, Point& B, Point& C) {
 
 bool Rasterizer::pointsInBounds(std::vector<Point>& points) {
     for(Point p : points) {
-        if(p.getX() < 0 || p.getX() >= buffer->getWidth()) {
+        if(p.getX() < 0 || p.getX() > buffer->getWidth()) {
             return false;
         }
-        if(p.getY() < 0 || p.getY() >= buffer->getHeight()) {
+        if(p.getY() < 0 || p.getY() > buffer->getHeight()) {
             return false;
         }
     }
     return true;
+}
+
+void Rasterizer::changeCanonicToViewport(Point& p) {
+    int x = (p.getX() + 1.f) * buffer->getWidth() * .5f;
+    int y = (p.getY() + 1.f) * buffer->getHeight() * .5f;
+    p.setX(x);
+    p.setY(y);
 }
