@@ -8,6 +8,7 @@ class Rasterizer {
     private:
         Buffer* buffer;
         float calculateEdgeFunction(Point& A, Point& B, Point& C);
+        uint32_t interpolizeTriangleColor(Point& p, Point& A, Point& B, Point& C);
     
     public:
         explicit Rasterizer(Buffer* buffer);

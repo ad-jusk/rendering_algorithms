@@ -6,7 +6,7 @@
 
 #define BUFFER_WIDTH 500
 #define BUFFER_HEIGHT 500
-#define COLOR 0xFF0000
+#define BG_COLOR 0xFFFFFF
 #define OUTPUT_PATH_TGA "../res/output.tga"
 
 class Buffer {
