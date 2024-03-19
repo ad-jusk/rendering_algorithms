@@ -18,6 +18,10 @@ int main() {
     Point E(0.3f, 0.3f, 0.0f);
     Point F(-0.3f, 0.3f, 0.f);
 
+    // Point D(-1.f, -1.f, 0.0f);
+    // Point E(0.0f, 0.0f, 0.0f);
+    // Point F(-1.f, 1.f, 0.f);
+
     rasterizer.drawTriangle(A, B, C);
     rasterizer.drawTriangle(D, E, F);
 

@@ -10,13 +10,6 @@ void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
     changeCanonicToViewport(B);
     changeCanonicToViewport(C);
 
-    std::vector<Point> points {A, B, C};
-
-    if(!pointsInBounds(points)) {
-        std::cerr << "Triangle's points are not in bounds!" << std::endl;
-        return;
-    }
-    
     const float ABC = calculateEdgeFunction(A, B, C);
     
     if(ABC < 0) {
@@ -32,6 +25,9 @@ void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
 
     for(int i = minY; i < maxY; i++) {
         for(int j = minX; j < maxX; j++) {
+
+            if(i < 0 || i > buffer->getHeight()) continue;
+            if(j < 0 || j > buffer->getWidth()) continue;
 
             P.setX(j);
             P.setY(i);
@@ -50,18 +46,6 @@ void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
 float Rasterizer::calculateEdgeFunction(Point& A, Point& B, Point& C) {
     return (B.getX() - A.getX()) * (C.getY() - A.getY()) -
         (B.getY() - A.getY()) * (C.getX() - A.getX());
-}
-
-bool Rasterizer::pointsInBounds(std::vector<Point>& points) {
-    for(Point p : points) {
-        if(p.getX() < 0 || p.getX() > buffer->getWidth()) {
-            return false;
-        }
-        if(p.getY() < 0 || p.getY() > buffer->getHeight()) {
-            return false;
-        }
-    }
-    return true;
 }
 
 void Rasterizer::changeCanonicToViewport(Point& p) {
