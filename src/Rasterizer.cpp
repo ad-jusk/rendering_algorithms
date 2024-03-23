@@ -4,7 +4,7 @@ Rasterizer::Rasterizer(Buffer* buffer) {
     this->buffer = buffer;
 }
 
-void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
+void Rasterizer::drawTriangle(Vector3& A, Vector3& B, Vector3& C) {
 
     changeCanonicToViewport(A);
     changeCanonicToViewport(B);
@@ -26,38 +26,38 @@ void Rasterizer::drawTriangle(Point& A, Point& B, Point& C) {
     maxX = std::min(maxX, buffer->getWidth());
     maxY = std::min(maxY, buffer->getHeight());
 
-    Point P(0, 0);
+    Vector3 p;
 
     for(int y = minY; y < maxY; y++) {
         for(int x = minX; x < maxX; x++) {
 
-            P.setX(x);
-            P.setY(y);
+            p.x = x;
+            p.y = y;
             
-            const float ABP = calculateEdgeFunction(A, B, P);
-            const float BCP = calculateEdgeFunction(B, C, P);
-            const float CAP = calculateEdgeFunction(C, A, P);
+            const float ABP = calculateEdgeFunction(A, B, p);
+            const float BCP = calculateEdgeFunction(B, C, p);
+            const float CAP = calculateEdgeFunction(C, A, p);
 
             if(ABP > 0 && BCP > 0 && CAP > 0) {
-                buffer->setPixel(P.x, P.y, interpolizeTriangleColor(P, A, B, C));
+                buffer->setPixel(p.x, p.y, interpolizeTriangleColor(p, A, B, C));
             }
         }
     }
 }
 
-float Rasterizer::calculateEdgeFunction(Point& A, Point& B, Point& C) {
+float Rasterizer::calculateEdgeFunction(Vector3& A, Vector3& B, Vector3& C) {
     return (B.x - A.x) * (C.y - A.y) -
         (B.y - A.y) * (C.x - A.x);
 }
 
-void Rasterizer::changeCanonicToViewport(Point& p) {
+void Rasterizer::changeCanonicToViewport(Vector3& p) {
     int x = (p.x + 1.f) * buffer->getWidth() * .5f;
     int y = (p.y + 1.f) * buffer->getHeight() * .5f;
-    p.setX(x);
-    p.setY(y);
+    p.x = x;
+    p.y = y;
 }
 
-uint32_t Rasterizer::interpolizeTriangleColor(Point& p, Point& A, Point& B, Point& C) {
+uint32_t Rasterizer::interpolizeTriangleColor(Vector3& p, Vector3& A, Vector3& B, Vector3& C) {
 
     const int32_t dx12 = A.x - B.x;
     const int32_t dx13 = A.x - C.x;
@@ -84,7 +84,10 @@ uint32_t Rasterizer::interpolizeTriangleColor(Point& p, Point& A, Point& B, Poin
     int32_t g = barV * 0xFF;
     int32_t b = barW * 0xFF;
 
-    uint32_t color = (r << 16) | (g << 8) | b;
+    Vector3 color1 = Color{0x0000FF}.ToVector();
+    Vector3 color2 = Color{0xFF0000}.ToVector();
+    Vector3 color3 = Color{0x00FF00}.ToVector();
+    Vector3 finalColor = color1 * barU + color2  * barV + color3 * barW;
 
-    return color;
+    return Color::FromVector(finalColor).hex;
 }

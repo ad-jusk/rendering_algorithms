@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Buffer.hpp"
-#include "Point.hpp"
+#include "Color.hpp"
 
 class Rasterizer {
 
     private:
         Buffer* buffer;
-        float calculateEdgeFunction(Point& A, Point& B, Point& C);
-        uint32_t interpolizeTriangleColor(Point& p, Point& A, Point& B, Point& C);
+        float calculateEdgeFunction(Vector3& A, Vector3& B, Vector3& C);
+        uint32_t interpolizeTriangleColor(Vector3& p, Vector3& A, Vector3& B, Vector3& C);
     
     public:
         explicit Rasterizer(Buffer* buffer);
-        void drawTriangle(Point& A, Point& B, Point& C);
-        void changeCanonicToViewport(Point& p);
+        void drawTriangle(Vector3& A, Vector3& B, Vector3& C);
+        void changeCanonicToViewport(Vector3& p);
 };
