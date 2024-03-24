@@ -26,6 +26,10 @@ void Rasterizer::drawTriangle(Vector3& A, Vector3& B, Vector3& C) {
     maxX = std::min(maxX, buffer->getWidth());
     maxY = std::min(maxY, buffer->getHeight());
 
+    const bool tl1 = ((A.y - B.y) < 0 || ((A.y - B.y) == 0 && (A.x - B.x) > 0));
+    const bool tl2 = ((B.y - C.y) < 0 || ((B.y - C.y) == 0 && (B.x - C.x) > 0));
+    const bool tl3 = ((C.y - A.y) < 0 || ((C.y - A.y) == 0 && (C.x - A.x) > 0));
+
     Vector3 p;
 
     for(int y = minY; y < maxY; y++) {
@@ -38,7 +42,9 @@ void Rasterizer::drawTriangle(Vector3& A, Vector3& B, Vector3& C) {
             const float BCP = calculateEdgeFunction(B, C, p);
             const float CAP = calculateEdgeFunction(C, A, p);
 
-            if(ABP > 0 && BCP > 0 && CAP > 0) {
+            if((ABP > 0 || (ABP == 0 && tl1))
+                && (BCP > 0 || (BCP == 0 && tl2))
+                && (CAP > 0 || (CAP == 0 && tl3))) {
                 buffer->setPixel(p.x, p.y, interpolizeTriangleColor(p, A, B, C));
             }
         }
@@ -69,6 +75,10 @@ uint32_t Rasterizer::interpolizeTriangleColor(Vector3& p, Vector3& A, Vector3& B
     const int32_t dy13 = A.y - C.y;
     const int32_t dy23 = B.y - C.y;
     const int32_t dy31 = C.y - A.y;
+
+    const bool tl1 = (dy12 < 0 || (dy12 == 0 && dx12 > 0));
+    const bool tl2 = (dy23 < 0 || (dy23 == 0 && dx23 > 0));
+    const bool tl3 = (dy31 < 0 || (dy31 == 0 && dx31 > 0));
 
     const float barUDenominator = 1.f / (dy23 * dx13 + dx32 * dy13);
     const float barVDenominator = 1.f / (dy31 * dx23 + dx13 * dy23);
