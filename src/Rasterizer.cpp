@@ -45,7 +45,7 @@ void Rasterizer::drawTriangle(Vector3& A, Vector3& B, Vector3& C) {
             if((ABP > 0 || (ABP == 0 && tl1))
                 && (BCP > 0 || (BCP == 0 && tl2))
                 && (CAP > 0 || (CAP == 0 && tl3))) {
-                buffer->setPixel(p.x, p.y, interpolizeTriangleColor(p, A, B, C));
+                interpolizeTriangleColor(p, A, B, C);
             }
         }
     }
@@ -63,7 +63,7 @@ void Rasterizer::changeCanonicToViewport(Vector3& p) {
     p.y = y;
 }
 
-uint32_t Rasterizer::interpolizeTriangleColor(Vector3& p, Vector3& A, Vector3& B, Vector3& C) {
+void Rasterizer::interpolizeTriangleColor(const Vector3& p, Vector3& A, Vector3& B, Vector3& C) {
 
     const int32_t dx12 = A.x - B.x;
     const int32_t dx13 = A.x - C.x;
@@ -90,14 +90,18 @@ uint32_t Rasterizer::interpolizeTriangleColor(Vector3& p, Vector3& A, Vector3& B
     const float barV = (dy31 * dxs3 + dx13 * dys3) * barVDenominator;
     const float barW = 1.f - barU - barV;
 
-    int32_t r = barU * 0xFF;
-    int32_t g = barV * 0xFF;
-    int32_t b = barW * 0xFF;
+    const float screenDepth = buffer->getDepth(p.x, p.y);
+    const float currentDepth = barU * A.z + barV * B.z + barW * C.z;
 
-    Vector3 color1 = Color{0x0000FF}.ToVector();
-    Vector3 color2 = Color{0xFF0000}.ToVector();
-    Vector3 color3 = Color{0x00FF00}.ToVector();
-    Vector3 finalColor = color1 * barU + color2  * barV + color3 * barW;
+    if(currentDepth < screenDepth) {
 
-    return Color::FromVector(finalColor).hex;
+        Vector3 color1 = Color{0x0000FF}.ToVector();
+        Vector3 color2 = Color{0xFF0000}.ToVector();
+        Vector3 color3 = Color{0x00FF00}.ToVector();
+        Vector3 finalColor = color1 * barU + color2  * barV + color3 * barW;
+        uint32_t finalColorHex = Color::FromVector(finalColor).hex;
+
+        buffer->setPixel(p.x, p.y, finalColorHex);
+        buffer->setDepth(p.x, p.y, currentDepth);
+    }
 }

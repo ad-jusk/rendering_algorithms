@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <limits>
 #include <cstdint>
 
 #define BUFFER_WIDTH 500
@@ -14,11 +15,13 @@ class Buffer {
     protected:
         int width, height;
         std::vector<uint32_t> pixels;
+        std::vector<float> depthBuffer;
 
     public:
         Buffer();
         explicit Buffer(int width, int height, uint32_t color);
         void fillColor(uint32_t color);
+        void fillDepth(float depth);
         void setSize(int width, int height, uint32_t color);
         int getWidth() const;
         int getHeight() const;
@@ -29,8 +32,8 @@ class Buffer {
             uint32_t getPixel(uint32_t x, uint32_t y) const { return pixels[CALC_INDEX]; }
             void setPixel(uint32_t x, uint32_t y, uint32_t color) { pixels[CALC_INDEX] = color; }
             
-            float getDepth(uint32_t x, uint32_t y) const { /*TODO*/ return 0; }
-            void setDepth(uint32_t x, uint32_t y, float value) { /*TODO*/ }
+            float getDepth(uint32_t x, uint32_t y) const { return depthBuffer[CALC_INDEX]; }
+            void setDepth(uint32_t x, uint32_t y, float value) { depthBuffer[CALC_INDEX] = value; }
 
         #undef CALC_INDEX
 };
