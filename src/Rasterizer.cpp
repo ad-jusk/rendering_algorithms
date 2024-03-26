@@ -4,7 +4,11 @@ Rasterizer::Rasterizer(Buffer* buffer) {
     this->buffer = buffer;
 }
 
-void Rasterizer::drawTriangle(Vector3& A, Vector3& B, Vector3& C) {
+void Rasterizer::drawTriangle(const Triangle& t) {
+
+    Vector3 A = t.A;
+    Vector3 B = t.B;
+    Vector3 C = t.C;
 
     changeCanonicToViewport(A);
     changeCanonicToViewport(B);

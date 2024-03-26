@@ -1,32 +1,22 @@
-#include <iostream>
-#include <vector>
-#include <cstdint>
-
 #include "include/TgaBuffer.hpp"
 #include "include/Rasterizer.hpp"
+#include "include/Triangle.hpp"
+#include "include/Matrix4.hpp"
 
 int main() {
 
     TgaBuffer buffer(BUFFER_WIDTH, BUFFER_HEIGHT, BG_COLOR);
     Rasterizer rasterizer(&buffer);
 
-    Vector3 A(0.5f, -0.5f, 0.f);
-    Vector3 B(0.5f, 0.5f, 0.f);
-    Vector3 C(-0.5f, 0.5f, 0.f);
+    Triangle t(Vector3{-1.f, 0.3f, 0.f}, Vector3{0.f, -1.f, 0.f}, Vector3{1.f, 0.3f, 0.f});
 
-    rasterizer.drawTriangle(A, B, C);
+    Matrix4 transform = Matrix4(1.f);
+    transform *= Matrix4::Perspective(90, 1.f, 0.01f, 100.f);
+    transform *= Matrix4::LookAt(Vector3{0.f, 0.f, 2.f}, Vector3{0, 0, 0}, Vector3(0, 1, 0));
 
-    Vector3 D(-0.5f, -0.5f, 0.f);
-    Vector3 E(0.5f, -0.5f, 0.f);
-    Vector3 F(-0.5f, 0.5f, 0.f);
+    t.applyTransform(transform);
 
-    rasterizer.drawTriangle(D, E, F);
-
-    Vector3 G(-0.5f, -0.7f, 1.f);
-    Vector3 H(0.5f, -0.7f, 1.f);
-    Vector3 I(0.f, 0.5f, -1.f);
-
-    rasterizer.drawTriangle(G, H, I);
+    rasterizer.drawTriangle(t);
 
     buffer.saveToFile(OUTPUT_PATH_TGA);
 

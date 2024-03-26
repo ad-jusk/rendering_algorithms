@@ -2,6 +2,7 @@
 
 #include "Buffer.hpp"
 #include "Color.hpp"
+#include "Triangle.hpp"
 
 class Rasterizer {
 
@@ -12,6 +13,6 @@ class Rasterizer {
     
     public:
         explicit Rasterizer(Buffer* buffer);
-        void drawTriangle(Vector3& A, Vector3& B, Vector3& C);
+        void drawTriangle(const Triangle& t);
         void changeCanonicToViewport(Vector3& p);
 };

@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdint>
 #include <cmath>
+#include <array>
 
 class Vector3 {
 
@@ -11,7 +12,7 @@ public:
     float x, y, z;
 
     Vector3() : x(0), y(0), z(0) {}
-
+    explicit Vector3(float x) : x(x), y(x), z(x) {}
     Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
     Vector3 operator+(const Vector3& other) const {
@@ -113,4 +114,6 @@ public:
         os << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
         return os;
     }
+
+    friend class Vector4;
 };
