@@ -7,7 +7,7 @@ class Matrix4 {
 private:
     static constexpr uint8_t SIZE_X = 4;
     static constexpr uint8_t SIZE_Y = 4;
-    std::array<Vector4, 4> grid{};
+    std::array<Vector4, 4> matrix{};
 
 public:
     Matrix4() : Matrix4(0) {}
@@ -16,9 +16,9 @@ public:
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
                 if (i == j)
-                    grid[i][j] = x;
+                    matrix[i][j] = x;
                 else
-                    grid[i][j] = 0;
+                    matrix[i][j] = 0;
             }
         }
     }
@@ -26,32 +26,32 @@ public:
     Matrix4(const Matrix4& m) {
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                grid[i][j] = m.grid[i][j];
+                matrix[i][j] = m.matrix[i][j];
             }
         }
     }
 
     float operator[](const std::pair<int, int>& coordinates) const {
-        return grid[coordinates.first][coordinates.second];
+        return matrix[coordinates.first][coordinates.second];
     }
     
     float& operator[](const std::pair<int, int>& coordinates) {
-        return grid[coordinates.first][coordinates.second];
+        return matrix[coordinates.first][coordinates.second];
     }
     
     Vector4& operator[](const uint32_t index) {
-        return grid[index];
+        return matrix[index];
     }
     
     const Vector4& operator[](const uint32_t index) const {
-        return grid[index];
+        return matrix[index];
     }
 
     Matrix4 operator-() const {
         Matrix4 result(0);
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                result.grid[i][j] = -this->grid[i][j];
+                result.matrix[i][j] = -this->matrix[i][j];
             }
         }
         return result;
@@ -61,7 +61,7 @@ public:
         Matrix4 result(0);
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                result.grid[i][j] = grid[i][j] + other.grid[i][j];
+                result.matrix[i][j] = matrix[i][j] + other.matrix[i][j];
             }
         }
 
@@ -72,7 +72,7 @@ public:
         Matrix4 result(0);
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                result.grid[i][j] = grid[i][j] - other.grid[i][j];
+                result.matrix[i][j] = matrix[i][j] - other.matrix[i][j];
             }
         }
 
@@ -82,7 +82,7 @@ public:
     Matrix4& operator=(const Matrix4& other) {
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                grid[i][j] = other.grid[i][j];
+                matrix[i][j] = other.matrix[i][j];
             }
         }
 
@@ -92,7 +92,7 @@ public:
     bool operator==(const Matrix4& other) const {
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                if(grid[i][j] != other.grid[i][j])
+                if(matrix[i][j] != other.matrix[i][j])
                     return false;
             }
         }
@@ -111,7 +111,7 @@ public:
         Matrix4 result(0);
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
-                result.grid[i][j] = scalar * grid[i][j];
+                result.matrix[i][j] = scalar * matrix[i][j];
             }
         }
         return result;
@@ -126,7 +126,7 @@ public:
         for (int i = 0; i < SIZE_X; ++i) {
             for (int j = 0; j < SIZE_Y; ++j) {
                 for (int k = 0; k < SIZE_X; ++k) {
-                    result.grid[i][j] += grid[k][j] * other.grid[i][k];
+                    result.matrix[i][j] += matrix[k][j] * other.matrix[i][k];
                 }
             }
         }
@@ -143,7 +143,7 @@ public:
 
         for (int i = 0; i < SIZE_X; i++) {
             for (int j = 0; j < SIZE_Y; j++) {
-                result.grid[i][j] = grid[j][i];
+                result.matrix[i][j] = matrix[j][i];
             }
         }
         return result;
@@ -154,13 +154,13 @@ public:
         Matrix4 helper(*this);
         for (int i = 0; i < 4; i++) {
             for (int k = i + 1; k < 4; k++) {
-                const float coefficient = helper.grid[k][i] / helper.grid[i][i];
+                const float coefficient = helper.matrix[k][i] / helper.matrix[i][i];
                 for (int j = i; j < 4; j++)
-                    helper.grid[k][j] = helper.grid[k][j] - coefficient * helper.grid[i][j];
+                    helper.matrix[k][j] = helper.matrix[k][j] - coefficient * helper.matrix[i][j];
             }
         }
         for (int i = 0; i < 4; i++)
-            result *= helper.grid[i][i];
+            result *= helper.matrix[i][i];
         return result;
     }
 
@@ -168,7 +168,7 @@ public:
         for (int i = 0; i < 4; ++i) {
             os << "[ ";
             for (int j = 0; j < 4; ++j) {
-                os << Matrix4.grid[j][i] << " ";
+                os << Matrix4.matrix[j][i] << " ";
             }
             os << "]" << "\n";
         }
@@ -254,10 +254,10 @@ public:
     
     Vector4 operator*(const Vector4& vec4) const {
         Vector4 result;
-        result.x = vec4.x * grid[0][0] + vec4.y * grid[1][0] + vec4.z * grid[2][0] + vec4.w * grid[3][0];
-        result.y = vec4.x * grid[0][1] + vec4.y * grid[1][1] + vec4.z * grid[2][1] + vec4.w * grid[3][1];
-        result.z = vec4.x * grid[0][2] + vec4.y * grid[1][2] + vec4.z * grid[2][2] + vec4.w * grid[3][2];
-        result.w = vec4.x * grid[0][3] + vec4.y * grid[1][3] + vec4.z * grid[2][3] + vec4.w * grid[3][3];
+        result.x = vec4.x * matrix[0][0] + vec4.y * matrix[1][0] + vec4.z * matrix[2][0] + vec4.w * matrix[3][0];
+        result.y = vec4.x * matrix[0][1] + vec4.y * matrix[1][1] + vec4.z * matrix[2][1] + vec4.w * matrix[3][1];
+        result.z = vec4.x * matrix[0][2] + vec4.y * matrix[1][2] + vec4.z * matrix[2][2] + vec4.w * matrix[3][2];
+        result.w = vec4.x * matrix[0][3] + vec4.y * matrix[1][3] + vec4.z * matrix[2][3] + vec4.w * matrix[3][3];
         return result;
     }
 };
