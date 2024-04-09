@@ -4,6 +4,17 @@ Rasterizer::Rasterizer(Buffer* buffer) {
     this->buffer = buffer;
 }
 
+void Rasterizer::render(Mesh* mesh, const Shader* shader) {
+
+    Triangle triangle;
+
+    for (int trisId = 0; trisId < mesh->GetNumTriangles(); ++trisId) {
+        mesh->GetTriangle(trisId,triangle);
+        shader->vertexShader(triangle);
+        drawTriangle(triangle);
+    }
+}
+
 void Rasterizer::drawTriangle(const Triangle& t) {
 
     Vector3 A = t.A;
@@ -13,12 +24,6 @@ void Rasterizer::drawTriangle(const Triangle& t) {
     changeCanonicToViewport(A);
     changeCanonicToViewport(B);
     changeCanonicToViewport(C);
-
-    const float ABC = calculateEdgeFunction(A, B, C);
-    
-    if(ABC < 0) {
-        return;
-    }
 
     int minX = std::min(std::min(A.x, B.x), C.x);
     int minY = std::min(std::min(A.y, B.y), C.y);
@@ -42,9 +47,9 @@ void Rasterizer::drawTriangle(const Triangle& t) {
             p.x = x;
             p.y = y;
             
-            const float ABP = calculateEdgeFunction(A, B, p);
-            const float BCP = calculateEdgeFunction(B, C, p);
-            const float CAP = calculateEdgeFunction(C, A, p);
+            const float ABP = (A.x - B.x) * (y - A.y) - (A.y - B.y) * (x - A.x);
+            const float BCP = (B.x - C.x) * (y - B.y) - (B.y - C.y) * (x - B.x);
+            const float CAP = (C.x - A.x) * (p.y - C.y) - (C.y - A.y) * (p.x - C.x);
 
             if((ABP > 0 || (ABP == 0 && tl1))
                 && (BCP > 0 || (BCP == 0 && tl2))
@@ -53,11 +58,6 @@ void Rasterizer::drawTriangle(const Triangle& t) {
             }
         }
     }
-}
-
-float Rasterizer::calculateEdgeFunction(Vector3& A, Vector3& B, Vector3& C) {
-    return (B.x - A.x) * (C.y - A.y) -
-        (B.y - A.y) * (C.x - A.x);
 }
 
 void Rasterizer::changeCanonicToViewport(Vector3& p) {

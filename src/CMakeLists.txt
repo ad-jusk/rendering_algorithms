@@ -1,1 +1,9 @@
-add_library(graphics Buffer.cpp TgaBuffer.cpp Rasterizer.cpp)
+add_library(graphics
+Buffer.cpp
+TgaBuffer.cpp
+Rasterizer.cpp
+Mesh.cpp
+SphereMesh.cpp
+Shader.cpp
+ConeMesh.cpp
+)

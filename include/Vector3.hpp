@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdint>
 #include <cmath>
+#include <algorithm>
 #include <array>
 
 class Vector3 {
