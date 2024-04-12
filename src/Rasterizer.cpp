@@ -1,4 +1,4 @@
-#include "../include/Rasterizer.hpp"
+#include "Rasterizer.hpp"
 
 Rasterizer::Rasterizer(Buffer* buffer) {
     this->buffer = buffer;

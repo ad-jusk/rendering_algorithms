@@ -1,4 +1,4 @@
-#include "../include/Buffer.hpp"
+#include "Buffer.hpp"
 
 Buffer::Buffer() {
     this->width = 0;

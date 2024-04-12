@@ -1,9 +1,17 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(GRAPHICS)
+set(CXX_STANDARD 20)
 
-add_executable(main main.cpp)
+project(rasterizer)
 
-add_subdirectory(src)
+file(GLOB_RECURSE SRC_FILES src/*.cpp)
+add_executable(${PROJECT_NAME} main.cpp ${SRC_FILES})
 
-target_link_libraries(main graphics)
+add_subdirectory(lib)
+
+target_include_directories(${PROJECT_NAME} PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/include 
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/lodepng
+)
+
+target_link_libraries(${PROJECT_NAME} lodepng)

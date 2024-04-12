@@ -1,4 +1,4 @@
-#include "../include/TgaBuffer.hpp"
+#include "TgaBuffer.hpp"
 
 void TgaBuffer::saveToFile(const char* filename) {
 

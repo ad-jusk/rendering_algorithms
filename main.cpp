@@ -1,9 +1,9 @@
-#include "include/TgaBuffer.hpp"
-#include "include/Rasterizer.hpp"
-#include "include/Triangle.hpp"
-#include "include/Matrix4.hpp"
-#include "include/SphereMesh.hpp"
-#include "include/ConeMesh.hpp"
+#include "TgaBuffer.hpp"
+#include "Rasterizer.hpp"
+#include "Triangle.hpp"
+#include "Matrix4.hpp"
+#include "SphereMesh.hpp"
+#include "ConeMesh.hpp"
 
 #define M_1_180 (1. / 180.)
 
