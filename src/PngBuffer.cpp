@@ -5,8 +5,8 @@ void PngBuffer::saveToFile() const {
 
     std::vector<uint8_t> matrix;
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
+    for (int y = 0; y < this->height; y++) {
+        for (int x = 0; x < this->width; x++) {
             uint32_t pixel = pixels.at(y * width + x);
             uint8_t red = (pixel >> 16) & 0xFF;
             uint8_t green = (pixel >> 8) & 0xFF;
@@ -21,7 +21,7 @@ void PngBuffer::saveToFile() const {
 	
     if (error) {
 		std::cerr << "Lodepng error " << error << ": " << lodepng_error_text(error) << std::endl;
-	}
+    }
 	else {
 		std::cout << "PNG image rendered" << std::endl;
 	}
