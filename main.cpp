@@ -1,4 +1,7 @@
+#include <memory>
+
 #include "TgaBuffer.hpp"
+#include "PngBuffer.hpp"
 #include "Rasterizer.hpp"
 #include "Triangle.hpp"
 #include "Matrix4.hpp"
@@ -11,10 +14,9 @@ static float ToRad(float deg) { return static_cast<float>(deg * M_PI * M_1_180);
 
 int main() {
 
-    TgaBuffer buffer(BUFFER_WIDTH, BUFFER_HEIGHT, BG_COLOR);
-    Rasterizer rasterizer(&buffer);
+    Rasterizer rasterizer(new PngBuffer(BUFFER_WIDTH, BUFFER_HEIGHT, BG_COLOR));
 
-    Shader* shader = new Shader();
+    std::unique_ptr<Shader> shader = std::make_unique<Shader>();
 
     shader->SetProjection(Matrix4::Perspective(ToRad(120.f), 1.f, 0.01f, 100.f));
     shader->SetView(Matrix4::LookAt({0.f, 0.f, 10.f}, Vector3{0.f}, Vector3{0.f, 1.f, 0.f}));
@@ -25,19 +27,17 @@ int main() {
     model = Matrix4::Translation(-0.2f, -0.2f, -20.f) *
             Matrix4::Scale(0.3f, 0.3f, 0.3f);
     shader->SetModel(model);
-    rasterizer.render(&sphereMesh, shader);
+    rasterizer.render(&sphereMesh, shader.get());
 
     ConeMesh coneMesh(1.f, 2.f, 6);
     model = Matrix4::Translation(0.2f, 0.1f, -20) *
             Matrix4::RotationZ(ToRad(180.f)) *
-            Matrix4::RotationX(ToRad(-60.f)) *
+            Matrix4::RotationX(ToRad(30.f)) *
             Matrix4::Scale(0.3f, 0.3f, 0.3f);
     shader->SetModel(model);
-    rasterizer.render(&coneMesh, shader);
+    rasterizer.render(&coneMesh, shader.get());
 
-    buffer.saveToFile(OUTPUT_PATH_TGA);
-
-    delete shader;
+    rasterizer.saveToFile();
 
     return 0;
 }

@@ -2,7 +2,7 @@
 
 #include "Buffer.hpp"
 
-class TgaBuffer : public Buffer {
+class PngBuffer : public Buffer {
 
     public:
         using Buffer::Buffer;

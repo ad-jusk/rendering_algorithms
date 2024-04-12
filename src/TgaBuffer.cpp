@@ -1,11 +1,11 @@
 #include "TgaBuffer.hpp"
 
-void TgaBuffer::saveToFile(const char* filename) {
+void TgaBuffer::saveToFile() const {
 
-        FILE* file = fopen(filename, "wb");
+        FILE* file = fopen(OUTPUT_PATH_TGA, "wb");
 
         if (!file) {
-            std::cerr << "Error: Unable to open file " << filename << std::endl;
+            std::cerr << "Error: Unable to open file " << std::endl;
             return;
         }
 
@@ -30,4 +30,6 @@ void TgaBuffer::saveToFile(const char* filename) {
         }
 
         fclose(file);
+
+        std::cout << "TGA image rendered" << std::endl;
 }

@@ -4,12 +4,16 @@ Rasterizer::Rasterizer(Buffer* buffer) {
     this->buffer = buffer;
 }
 
+Rasterizer::~Rasterizer() {
+    delete this->buffer;
+}
+
 void Rasterizer::render(Mesh* mesh, const Shader* shader) {
 
     Triangle triangle;
 
-    for (int trisId = 0; trisId < mesh->GetNumTriangles(); ++trisId) {
-        mesh->GetTriangle(trisId,triangle);
+    for (int trId = 0; trId < mesh->GetNumTriangles(); ++trId) {
+        mesh->GetTriangle(trId, triangle);
         shader->vertexShader(triangle);
         drawTriangle(triangle);
     }
@@ -67,7 +71,7 @@ void Rasterizer::changeCanonicToViewport(Vector3& p) {
     p.y = y;
 }
 
-void Rasterizer::interpolizeTriangleColor(const Vector3& p, Vector3& A, Vector3& B, Vector3& C) {
+void Rasterizer::interpolizeTriangleColor(const Vector3& p, const Vector3& A, const Vector3& B, const Vector3& C) {
 
     const int32_t dx12 = A.x - B.x;
     const int32_t dx13 = A.x - C.x;
@@ -108,4 +112,8 @@ void Rasterizer::interpolizeTriangleColor(const Vector3& p, Vector3& A, Vector3&
         buffer->setPixel(p.x, p.y, finalColorHex);
         buffer->setDepth(p.x, p.y, currentDepth);
     }
+}
+
+void Rasterizer::saveToFile() const {
+    this->buffer->saveToFile();
 }

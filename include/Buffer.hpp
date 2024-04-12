@@ -9,6 +9,7 @@
 #define BUFFER_HEIGHT 500
 #define BG_COLOR 0xFFFFFFFF
 #define OUTPUT_PATH_TGA "../res/output.tga"
+#define OUTPUT_PATH_PNG "../res/output.png"
 
 class Buffer {
 
@@ -25,7 +26,7 @@ class Buffer {
         void setSize(int width, int height, uint32_t color);
         int getWidth() const;
         int getHeight() const;
-        virtual void saveToFile(const char* filename) {};
+        virtual void saveToFile() const = 0;
 
         #define CALC_INDEX (x + width * y)
 
