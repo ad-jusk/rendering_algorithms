@@ -20,9 +20,9 @@ void PngBuffer::saveToFile() const {
     unsigned int error = lodepng::encode(OUTPUT_PATH_PNG, matrix, this->width, this->height, LCT_RGB);
 	
     if (error) {
-		std::cerr << "Lodepng error " << error << ": " << lodepng_error_text(error) << std::endl;
+        std::cerr << "Lodepng error " << error << ": " << lodepng_error_text(error) << std::endl;
     }
 	else {
-		std::cout << "PNG image rendered" << std::endl;
-	}
+        std::cout << "PNG image rendered" << std::endl;
+    }
 }
