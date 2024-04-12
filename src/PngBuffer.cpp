@@ -22,7 +22,7 @@ void PngBuffer::saveToFile() const {
     if (error) {
         std::cerr << "Lodepng error " << error << ": " << lodepng_error_text(error) << std::endl;
     }
-	else {
+    else {
         std::cout << "PNG image rendered" << std::endl;
     }
 }
