@@ -1,4 +1,4 @@
-#include "SphereMesh.hpp"
+#include "mesh/SphereMesh.hpp"
 
 SphereMesh::SphereMesh(uint32_t segmentsNum) {
     const uint32_t vert = segmentsNum;

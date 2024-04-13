@@ -1,4 +1,4 @@
-#include "ConeMesh.hpp"
+#include "mesh/ConeMesh.hpp"
 
 ConeMesh::ConeMesh(float radius, float height, uint32_t segmentsNum) {
     

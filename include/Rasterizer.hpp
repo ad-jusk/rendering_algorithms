@@ -3,8 +3,8 @@
 #include "Buffer.hpp"
 #include "Color.hpp"
 #include "Triangle.hpp"
-#include "Mesh.hpp"
-#include "Shader.hpp"
+#include "shader/Shader.hpp"
+#include "mesh/Mesh.hpp"
 
 class Rasterizer {
 
