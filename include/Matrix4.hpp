@@ -226,8 +226,8 @@ public:
         Matrix4 result {1};
 
         const Vector3 forward = (center - eye).normalize();
-        const Vector3 right = forward.cross(up);
-        const Vector3 trueUp = right.cross(forward);
+        const Vector3 right = forward.cross(up).normalize();
+        const Vector3 trueUp = right.cross(forward).normalize();
 
         result[0] = Vector4{right.x, trueUp.x, forward.x, 0};
         result[1] = Vector4{right.y, trueUp.y, forward.y, 0};
@@ -239,8 +239,6 @@ public:
 
     static Matrix4 Perspective(float fov, float aspect, float near, float far) {
         
-        fov = fov * M_PI * (1.f / 180.f);
-
         Matrix4 result {0};
         const float f = std::cos(fov / 2.) / std::sin(fov / 2.);
         
