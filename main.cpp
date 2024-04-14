@@ -32,12 +32,14 @@ int main() {
     pointLight.position = Vector3{0.f, 3.f, 0.f};
     pointLight.lightColor = {0.f, 0.f, 1.f};
     pointLight.diffuseStrength = 0.5f;
+    pointLight.specularStrength = 0.0f;
     shader->addPointLight(pointLight);
 
     PointLight pointLight2;
     pointLight2.position = Vector3{-3.f, 0.f, 0.f};
     pointLight2.lightColor = {0.f, 1.f, 1.f};
     pointLight2.diffuseStrength = 0.5f;
+    pointLight2.specularStrength = 0.1f;
     shader->addPointLight(pointLight2);
 
     shader->setProjection(Matrix4::Perspective(ToRad(120.f), 1.f, 0.01f, 100.f));
