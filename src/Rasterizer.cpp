@@ -15,11 +15,11 @@ void Rasterizer::render(Mesh* mesh, const Shader* shader) {
     for (int trId = 0; trId < mesh->GetNumTriangles(); ++trId) {
         mesh->GetTriangle(trId, triangle);
         shader->vertexShader(triangle);
-        drawTriangle(triangle);
+        drawTriangle(triangle, shader);
     }
 }
 
-void Rasterizer::drawTriangle(const Triangle& t) {
+void Rasterizer::drawTriangle(const Triangle& t, const Shader* shader) {
 
     Vector3 A = t.A;
     Vector3 B = t.B;
@@ -58,7 +58,7 @@ void Rasterizer::drawTriangle(const Triangle& t) {
             if((ABP > 0 || (ABP == 0 && tl1))
                 && (BCP > 0 || (BCP == 0 && tl2))
                 && (CAP > 0 || (CAP == 0 && tl3))) {
-                interpolizeTriangleColor(p, A, B, C);
+                colorTriangle(p, t, shader);
             }
         }
     }
@@ -71,7 +71,15 @@ void Rasterizer::changeCanonicToViewport(Vector3& p) {
     p.y = y;
 }
 
-void Rasterizer::interpolizeTriangleColor(const Vector3& p, const Vector3& A, const Vector3& B, const Vector3& C) {
+void Rasterizer::colorTriangle(const Vector3& p, const Triangle& t, const Shader* shader) {
+
+    Vector3 A = t.A;
+    Vector3 B = t.B;
+    Vector3 C = t.C;
+
+    changeCanonicToViewport(A);
+    changeCanonicToViewport(B);
+    changeCanonicToViewport(C);
 
     const int32_t dx12 = A.x - B.x;
     const int32_t dx13 = A.x - C.x;
@@ -103,10 +111,7 @@ void Rasterizer::interpolizeTriangleColor(const Vector3& p, const Vector3& A, co
 
     if(currentDepth < screenDepth) {
 
-        Vector3 color1 = Color{0x0000FF}.ToVector();
-        Vector3 color2 = Color{0xFF0000}.ToVector();
-        Vector3 color3 = Color{0x00FF00}.ToVector();
-        Vector3 finalColor = color1 * barU + color2  * barV + color3 * barW;
+        Vector3 finalColor = t.colorA * barU + t.colorB  * barV + t.colorC * barW;
         uint32_t finalColorHex = Color::FromVector(finalColor).hex;
 
         buffer->setPixel(p.x, p.y, finalColorHex);

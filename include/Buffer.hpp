@@ -7,7 +7,7 @@
 
 #define BUFFER_WIDTH 500
 #define BUFFER_HEIGHT 500
-#define BG_COLOR 0xFFFFFFFF
+#define BG_COLOR 0x000000
 #define OUTPUT_PATH_TGA "../res/output.tga"
 #define OUTPUT_PATH_PNG "../res/output.png"
 

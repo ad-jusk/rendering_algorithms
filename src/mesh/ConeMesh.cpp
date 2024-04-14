@@ -35,4 +35,25 @@ ConeMesh::ConeMesh(float radius, float height, uint32_t segmentsNum) {
         vert_indicies.push_back(i + 1);
         vert_indicies.push_back(ii + 1);
     }
+
+    norm_indicies.insert(norm_indicies.end(), vert_indicies.begin(), vert_indicies.end());
+    normals.resize(segmentsNum + 2, Vector3{0.f});
+    
+    for (Vector3& normal : normals) {
+        normal = Vector3{0.f};
+    }
+
+    for (int i = 0; i < vert_indicies.size(); i += 3) {
+        Vector3 normal = Vector3::cross(
+            (vertices[vert_indicies[i]] - vertices[vert_indicies[i + 1]]),
+            (vertices[vert_indicies[i]] - vertices[vert_indicies[i + 2]])).normalize();
+
+        normals[vert_indicies[i]] += normal;
+        normals[vert_indicies[i + 1]] += normal;
+        normals[vert_indicies[i + 2]] += normal;
+    }
+
+    for (Vector3& normal : normals) {
+        normal = normal.normalize();
+    }
 }

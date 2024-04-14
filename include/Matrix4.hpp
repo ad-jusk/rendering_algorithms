@@ -251,6 +251,145 @@ public:
 
         return result;
     }
+
+    Matrix4 Inverse() const {
+        std::array<float, 16> result{};
+        std::array<float, 16> flatMatrix{};
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; ++j) {
+                flatMatrix[i + j * 4] = matrix[j][i];
+            }
+        }
+
+        result[0] = flatMatrix[5] * flatMatrix[10] * flatMatrix[15] -
+                    flatMatrix[5] * flatMatrix[11] * flatMatrix[14] -
+                    flatMatrix[9] * flatMatrix[6] * flatMatrix[15] +
+                    flatMatrix[9] * flatMatrix[7] * flatMatrix[14] +
+                    flatMatrix[13] * flatMatrix[6] * flatMatrix[11] -
+                    flatMatrix[13] * flatMatrix[7] * flatMatrix[10];
+
+        result[4] = -flatMatrix[4] * flatMatrix[10] * flatMatrix[15] +
+                    flatMatrix[4] * flatMatrix[11] * flatMatrix[14] +
+                    flatMatrix[8] * flatMatrix[6] * flatMatrix[15] -
+                    flatMatrix[8] * flatMatrix[7] * flatMatrix[14] -
+                    flatMatrix[12] * flatMatrix[6] * flatMatrix[11] +
+                    flatMatrix[12] * flatMatrix[7] * flatMatrix[10];
+
+        result[8] = flatMatrix[4] * flatMatrix[9] * flatMatrix[15] -
+                    flatMatrix[4] * flatMatrix[11] * flatMatrix[13] -
+                    flatMatrix[8] * flatMatrix[5] * flatMatrix[15] +
+                    flatMatrix[8] * flatMatrix[7] * flatMatrix[13] +
+                    flatMatrix[12] * flatMatrix[5] * flatMatrix[11] -
+                    flatMatrix[12] * flatMatrix[7] * flatMatrix[9];
+
+        result[12] = -flatMatrix[4] * flatMatrix[9] * flatMatrix[14] +
+                    flatMatrix[4] * flatMatrix[10] * flatMatrix[13] +
+                    flatMatrix[8] * flatMatrix[5] * flatMatrix[14] -
+                    flatMatrix[8] * flatMatrix[6] * flatMatrix[13] -
+                    flatMatrix[12] * flatMatrix[5] * flatMatrix[10] +
+                    flatMatrix[12] * flatMatrix[6] * flatMatrix[9];
+
+        result[1] = -flatMatrix[1] * flatMatrix[10] * flatMatrix[15] +
+                    flatMatrix[1] * flatMatrix[11] * flatMatrix[14] +
+                    flatMatrix[9] * flatMatrix[2] * flatMatrix[15] -
+                    flatMatrix[9] * flatMatrix[3] * flatMatrix[14] -
+                    flatMatrix[13] * flatMatrix[2] * flatMatrix[11] +
+                    flatMatrix[13] * flatMatrix[3] * flatMatrix[10];
+
+        result[5] = flatMatrix[0] * flatMatrix[10] * flatMatrix[15] -
+                    flatMatrix[0] * flatMatrix[11] * flatMatrix[14] -
+                    flatMatrix[8] * flatMatrix[2] * flatMatrix[15] +
+                    flatMatrix[8] * flatMatrix[3] * flatMatrix[14] +
+                    flatMatrix[12] * flatMatrix[2] * flatMatrix[11] -
+                    flatMatrix[12] * flatMatrix[3] * flatMatrix[10];
+
+        result[9] = -flatMatrix[0] * flatMatrix[9] * flatMatrix[15] +
+                    flatMatrix[0] * flatMatrix[11] * flatMatrix[13] +
+                    flatMatrix[8] * flatMatrix[1] * flatMatrix[15] -
+                    flatMatrix[8] * flatMatrix[3] * flatMatrix[13] -
+                    flatMatrix[12] * flatMatrix[1] * flatMatrix[11] +
+                    flatMatrix[12] * flatMatrix[3] * flatMatrix[9];
+
+        result[13] = flatMatrix[0] * flatMatrix[9] * flatMatrix[14] -
+                    flatMatrix[0] * flatMatrix[10] * flatMatrix[13] -
+                    flatMatrix[8] * flatMatrix[1] * flatMatrix[14] +
+                    flatMatrix[8] * flatMatrix[2] * flatMatrix[13] +
+                    flatMatrix[12] * flatMatrix[1] * flatMatrix[10] -
+                    flatMatrix[12] * flatMatrix[2] * flatMatrix[9];
+
+        result[2] = flatMatrix[1] * flatMatrix[6] * flatMatrix[15] -
+                    flatMatrix[1] * flatMatrix[7] * flatMatrix[14] -
+                    flatMatrix[5] * flatMatrix[2] * flatMatrix[15] +
+                    flatMatrix[5] * flatMatrix[3] * flatMatrix[14] +
+                    flatMatrix[13] * flatMatrix[2] * flatMatrix[7] -
+                    flatMatrix[13] * flatMatrix[3] * flatMatrix[6];
+
+        result[6] = -flatMatrix[0] * flatMatrix[6] * flatMatrix[15] +
+                    flatMatrix[0] * flatMatrix[7] * flatMatrix[14] +
+                    flatMatrix[4] * flatMatrix[2] * flatMatrix[15] -
+                    flatMatrix[4] * flatMatrix[3] * flatMatrix[14] -
+                    flatMatrix[12] * flatMatrix[2] * flatMatrix[7] +
+                    flatMatrix[12] * flatMatrix[3] * flatMatrix[6];
+
+        result[10] = flatMatrix[0] * flatMatrix[5] * flatMatrix[15] -
+                    flatMatrix[0] * flatMatrix[7] * flatMatrix[13] -
+                    flatMatrix[4] * flatMatrix[1] * flatMatrix[15] +
+                    flatMatrix[4] * flatMatrix[3] * flatMatrix[13] +
+                    flatMatrix[12] * flatMatrix[1] * flatMatrix[7] -
+                    flatMatrix[12] * flatMatrix[3] * flatMatrix[5];
+
+        result[14] = -flatMatrix[0] * flatMatrix[5] * flatMatrix[14] +
+                    flatMatrix[0] * flatMatrix[6] * flatMatrix[13] +
+                    flatMatrix[4] * flatMatrix[1] * flatMatrix[14] -
+                    flatMatrix[4] * flatMatrix[2] * flatMatrix[13] -
+                    flatMatrix[12] * flatMatrix[1] * flatMatrix[6] +
+                    flatMatrix[12] * flatMatrix[2] * flatMatrix[5];
+
+        result[3] = -flatMatrix[1] * flatMatrix[6] * flatMatrix[11] +
+                    flatMatrix[1] * flatMatrix[7] * flatMatrix[10] +
+                    flatMatrix[5] * flatMatrix[2] * flatMatrix[11] -
+                    flatMatrix[5] * flatMatrix[3] * flatMatrix[10] -
+                    flatMatrix[9] * flatMatrix[2] * flatMatrix[7] +
+                    flatMatrix[9] * flatMatrix[3] * flatMatrix[6];
+
+        result[7] = flatMatrix[0] * flatMatrix[6] * flatMatrix[11] -
+                    flatMatrix[0] * flatMatrix[7] * flatMatrix[10] -
+                    flatMatrix[4] * flatMatrix[2] * flatMatrix[11] +
+                    flatMatrix[4] * flatMatrix[3] * flatMatrix[10] +
+                    flatMatrix[8] * flatMatrix[2] * flatMatrix[7] -
+                    flatMatrix[8] * flatMatrix[3] * flatMatrix[6];
+
+        result[11] = -flatMatrix[0] * flatMatrix[5] * flatMatrix[11] +
+                    flatMatrix[0] * flatMatrix[7] * flatMatrix[9] +
+                    flatMatrix[4] * flatMatrix[1] * flatMatrix[11] -
+                    flatMatrix[4] * flatMatrix[3] * flatMatrix[9] -
+                    flatMatrix[8] * flatMatrix[1] * flatMatrix[7] +
+                    flatMatrix[8] * flatMatrix[3] * flatMatrix[5];
+
+        result[15] = flatMatrix[0] * flatMatrix[5] * flatMatrix[10] -
+                    flatMatrix[0] * flatMatrix[6] * flatMatrix[9] -
+                    flatMatrix[4] * flatMatrix[1] * flatMatrix[10] +
+                    flatMatrix[4] * flatMatrix[2] * flatMatrix[9] +
+                    flatMatrix[8] * flatMatrix[1] * flatMatrix[6] -
+                    flatMatrix[8] * flatMatrix[2] * flatMatrix[5];
+
+
+        const float det = this->Det();
+
+        if (det == 0)
+            return Matrix4(0);
+
+        Matrix4 finalResult(0);
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; ++j) {
+                finalResult.matrix[i][j] = result[i * 4 + j] / det;
+            }
+        }
+
+        return finalResult;
+    }
+
     
     Vector4 operator*(const Vector4& vec4) const {
         Vector4 result;
