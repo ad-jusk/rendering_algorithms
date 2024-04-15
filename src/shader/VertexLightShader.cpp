@@ -15,7 +15,7 @@ void VertexLightShader::vertexShader(Triangle& triangle) const {
 
     auto calculateColor = [&](Vector3& pos, Vector3& nor, Vector3& color) {
 
-        const Vector3 ambient = ambientLight.color * ambientLight.strength;
+        const Vector3 ambientColor = ambientLight.color * ambientLight.strength;
 
         Vector3 lightColor;
 
@@ -23,7 +23,7 @@ void VertexLightShader::vertexShader(Triangle& triangle) const {
             const Vector3 diffuse = Sat(nor.dot(lightDir)) * light->diffuseStrength * light->lightColor;
             const Vector3 reflect = Reflect(-lightDir, nor);
             const Vector3 viewDir = (viewPos - pos).normalize();
-            const float specularStrength = std::pow(std::max(Vector3::dot(viewDir, reflect), 0.f), 2);
+            const float specularStrength = std::pow(std::max(Vector3::dot(viewDir, reflect), 0.f), 12);
             const Vector3 specular = specularStrength * light->specularStrength * light->lightColor;
             lightColor += (diffuse + specular);
         };
@@ -36,7 +36,7 @@ void VertexLightShader::vertexShader(Triangle& triangle) const {
             calculateLight(&pointLight, lightDir);
         }
 
-        color = ambient + lightColor;
+        color = ambientColor + lightColor;
     };
 
     calculateColor(triangle.A, triangle.norA, triangle.colorA);
