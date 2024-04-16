@@ -43,3 +43,15 @@ void VertexLightShader::vertexShader(Triangle& triangle) const {
     calculateColor(triangle.B, triangle.norB, triangle.colorB);
     calculateColor(triangle.C, triangle.norC, triangle.colorC);
 }
+
+void VertexLightShader::pixelShader(
+    const Vector3& interpolatedPosition,
+    const Vector3& interpolatedNormal,
+    const Vector3& interpolatedColor,
+    Vector3& outColor) const {
+    
+    // SHADING DONE IN VERTEXES, RETURNING INTERPOLATED COLOR
+
+    outColor = interpolatedColor;
+
+}

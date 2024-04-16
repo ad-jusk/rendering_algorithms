@@ -133,6 +133,17 @@ public:
         return Vector3(x, y, z);
     }
 
+    Vector3& operator=(Vector3 const& another) {
+        if (this == &another) {
+            return *this;
+        }
+
+        this->x = another.x;
+        this->y = another.y;
+        this->z = another.z;
+        return *this;
+    }
+
     friend std::ostream& operator<<(std::ostream& os, const Vector3& vec) {
         os << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
         return os;

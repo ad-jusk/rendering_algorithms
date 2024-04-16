@@ -111,10 +111,17 @@ void Rasterizer::colorTriangle(const Vector3& p, const Triangle& t, const Shader
 
     if(currentDepth < screenDepth) {
 
-        Vector3 finalColor = t.colorA * barU + t.colorB  * barV + t.colorC * barW;
-        uint32_t finalColorHex = Color::FromVector(finalColor).hex;
+        Vector3 pixelColor{0.f};
 
-        buffer->setPixel(p.x, p.y, finalColorHex);
+        Vector3 interpolizedPos = t.A * barU + t.B  * barV + t.C * barW;
+        Vector3 interpolizedNor = (t.norA * barU + t.norB  * barV + t.norC * barW).normalize();
+        Vector3 interpolizedColor = t.colorA * barU + t.colorB  * barV + t.colorC * barW;
+
+        shader->pixelShader(interpolizedPos, interpolizedNor, interpolizedColor, pixelColor);
+
+        uint32_t pixelColorHex = Color::FromVector(pixelColor).hex;
+
+        buffer->setPixel(p.x, p.y, pixelColorHex);
         buffer->setDepth(p.x, p.y, currentDepth);
     }
 }
