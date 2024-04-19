@@ -3,6 +3,7 @@
 Mesh::Mesh() {}
 
 void Mesh::GetTriangle(uint32_t index, Triangle& triangle) const {
+    
     uint32_t indiceID = index * 3;
 
     const uint32_t v1 = vert_indicies[indiceID];
@@ -20,4 +21,19 @@ void Mesh::GetTriangle(uint32_t index, Triangle& triangle) const {
     triangle.norA = normals[n1];
     triangle.norB = normals[n2];
     triangle.norC = normals[n3];
+
+    if (!uv_indicies.empty()) {
+        const uint32_t uv1 = uv_indicies[indiceID];
+        const uint32_t uv2 = uv_indicies[indiceID + 1];
+        const uint32_t uv3 = uv_indicies[indiceID + 2];
+
+        triangle.uvA = uvs[uv1];
+        triangle.uvB = uvs[uv3];
+        triangle.uvC = uvs[uv2];
+    }
+    else {
+        triangle.uvA = Vector3{0.f};
+        triangle.uvB = Vector3{0.f};
+        triangle.uvC = Vector3{0.f};
+    }
 }

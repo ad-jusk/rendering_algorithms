@@ -7,14 +7,20 @@ struct Triangle {
     Vector3 A, B, C;
     Vector3 norA, norB, norC;
     Vector3 colorA, colorB, colorC;
+    Vector3 uvA, uvB, uvC;
 
     Triangle() : Triangle(Vector3{0}, Vector3{0}, Vector3{0}) {}
     Triangle(const Vector3& A, const Vector3& B, const Vector3& C)
-            : Triangle(A, B, C, Vector3{0.f}, Vector3{0.f}, Vector3{0.f}) {}
+            : Triangle(A, B, C,
+                Vector3{0.f}, Vector3{0.f}, Vector3{0.f},
+                Vector3{0.f}, Vector3{0.f}, Vector3{0.f}) {}
+    
     Triangle(const Vector3& A, const Vector3& B, const Vector3& C,
-            const Vector3& norA, const Vector3& norB, const Vector3& norC)
+            const Vector3& norA, const Vector3& norB, const Vector3& norC,
+            const Vector3& uvA, const Vector3& uvB, const Vector3& uvC)
             : A(A), B(B), C(C),
               norA(norA), norB(norB), norC(norC),
+              uvA(uvA), uvB(uvB), uvC(uvC),
               colorA(Vector3{0.f}), colorB(Vector3{0.f}), colorC(Vector3{0.f}){}
 
     void applyTransform(const Matrix4& transform) {

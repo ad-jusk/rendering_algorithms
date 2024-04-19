@@ -11,6 +11,7 @@ class SimpleShader : public Shader {
             const Vector3& interpolatedPosition,
             const Vector3& interpolatedNormal,
             const Vector3& interpolatedColor,
+            const Vector3& interpolatedUV,
             Vector3& outColor) const override;
 
         void setModel(const Matrix4& newModel) { model = newModel; preProcess(); }
@@ -20,4 +21,6 @@ class SimpleShader : public Shader {
         void setAmbientLight(const AmbientLight& ambientLight) { this->ambientLight = ambientLight; }
         void setDirectionalLight(const DirectionalLight& directionalLight) { this->directionalLight = directionalLight; }
         void addPointLight(const PointLight& pointLight) { pointLights.push_back(pointLight); }
+
+        void setTexture(const std::shared_ptr<Texture> texture) { this->texture = texture; }
 };

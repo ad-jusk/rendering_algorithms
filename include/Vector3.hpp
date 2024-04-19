@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cmath>
 #include <algorithm>
+#include <memory>
 #include <array>
 
 class Vector3 {

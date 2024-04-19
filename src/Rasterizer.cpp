@@ -116,8 +116,9 @@ void Rasterizer::colorTriangle(const Vector3& p, const Triangle& t, const Shader
         Vector3 interpolizedPos = t.A * barU + t.B  * barV + t.C * barW;
         Vector3 interpolizedNor = (t.norA * barU + t.norB  * barV + t.norC * barW).normalize();
         Vector3 interpolizedColor = t.colorA * barU + t.colorB  * barV + t.colorC * barW;
+        Vector3 interpolatedUV = barU * t.uvA / t.A.z + barV * t.uvB / t.B.z + barW * t.uvC / t.C.z;    
 
-        shader->pixelShader(interpolizedPos, interpolizedNor, interpolizedColor, pixelColor);
+        shader->pixelShader(interpolizedPos, interpolizedNor, interpolizedColor, interpolatedUV, pixelColor);
 
         uint32_t pixelColorHex = Color::FromVector(pixelColor).hex;
 

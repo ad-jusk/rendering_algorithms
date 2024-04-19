@@ -17,6 +17,7 @@ void SimpleShader::pixelShader(
     const Vector3& interpolatedPosition,
     const Vector3& interpolatedNormal,
     const Vector3& interpolatedColor,
+    const Vector3& interpolatedUV,
     Vector3& outColor) const {
 
         const Vector3 ambientColor = ambientLight.color * ambientLight.strength;
@@ -40,5 +41,11 @@ void SimpleShader::pixelShader(
             calculateLight(&pointLight, lightDir);
         }
 
-        outColor = (ambientColor + lightColor).clamp_0_1();
+        Vector3 objColor{1.f};
+
+        if(texture) {
+            objColor = texture->sample(interpolatedUV).ToVector();
+        }
+
+        outColor = (ambientColor + lightColor).mul(objColor).clamp_0_1();
 }

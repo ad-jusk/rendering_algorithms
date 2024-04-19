@@ -48,6 +48,7 @@ void VertexLightShader::pixelShader(
     const Vector3& interpolatedPosition,
     const Vector3& interpolatedNormal,
     const Vector3& interpolatedColor,
+    const Vector3& interpolatedUV,
     Vector3& outColor) const {
     
     // SHADING DONE IN VERTEXES, RETURNING INTERPOLATED COLOR

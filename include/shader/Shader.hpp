@@ -6,6 +6,7 @@
 #include "light/DirectionalLight.hpp"
 #include "light/PointLight.hpp"
 #include "Utils.hpp"
+#include "Texture.hpp"
 
 class Shader {
 
@@ -15,6 +16,7 @@ class Shader {
         AmbientLight ambientLight;
         DirectionalLight directionalLight;
         std::vector<PointLight> pointLights;
+        std::shared_ptr<Texture> texture;
 
     public:
         virtual void preProcess() = 0;
@@ -23,5 +25,6 @@ class Shader {
                 const Vector3& interpolatedPosition,
                 const Vector3& interpolatedNormal,
                 const Vector3& interpolatedColor,
+                const Vector3& interpolatedUV,
                 Vector3& outColor) const = 0;
 };
