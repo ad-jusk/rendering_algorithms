@@ -12,6 +12,7 @@ add_subdirectory(lib)
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include 
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lodepng
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/stb
 )
 
-target_link_libraries(${PROJECT_NAME} lodepng)
+target_link_libraries(${PROJECT_NAME} lodepng stb)
