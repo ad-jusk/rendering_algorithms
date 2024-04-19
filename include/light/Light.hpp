@@ -8,5 +8,5 @@ class Light {
         Vector3 lightColor;
         float diffuseStrength, specularStrength;
 
-        Light() : lightColor(1.f), diffuseStrength(0.7f), specularStrength(0.5f) {}
+        Light() : lightColor(Vector3{1.f, 1.f, 1.f}), diffuseStrength(0.f), specularStrength(0.f) {}
 };

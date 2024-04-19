@@ -44,8 +44,30 @@ public:
         return x * other.x + y * other.y + z * other.z;
     }
 
+    friend Vector3 operator*(float scalar, const Vector3& vector) {
+        return vector * scalar;
+    }
+
+    void operator+=(Vector3 const& another) { *this = *this + another; }
+    
+    void operator-=(Vector3 const& another) { *this = *this - another; }
+
     Vector3 cross(const Vector3& other) const {
         return Vector3(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
+    }
+
+    static Vector3 cross(const Vector3& a, const Vector3& b) { return a.cross(b); }
+
+    float dot(const Vector3& v) const { return x * v.x + y * v.y + z * v.z; }
+
+    static float dot(const Vector3& a, const Vector3& b) { return a.dot(b); }
+
+    Vector3 mul(const Vector3& v) const {
+        Vector3 result;
+        result.x = this->x * v.x;
+        result.y = this->y * v.y;
+        result.z = this->z * v.z;
+        return result;
     }
 
     Vector3 normalize() const {
@@ -109,6 +131,17 @@ public:
 
     Vector3 operator+() const {
         return Vector3(x, y, z);
+    }
+
+    Vector3& operator=(Vector3 const& another) {
+        if (this == &another) {
+            return *this;
+        }
+
+        this->x = another.x;
+        this->y = another.y;
+        this->z = another.z;
+        return *this;
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Vector3& vec) {

@@ -37,4 +37,11 @@ SphereMesh::SphereMesh(uint32_t segmentsNum) {
             vert_indicies[index] = (rr + 1) % vert + vert + yy * vert;
         }
     }
+
+    norm_indicies.insert(norm_indicies.end(), vert_indicies.begin(), vert_indicies.end());
+    normals.resize(vSize, Vector3{0.f});
+
+    for (const uint32_t& indice : norm_indicies) {
+        normals[indice] = vertices[indice].normalize();
+    }
 }

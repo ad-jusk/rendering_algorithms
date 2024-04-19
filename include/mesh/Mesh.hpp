@@ -7,6 +7,8 @@ class Mesh {
     protected:
         std::vector<Vector3> vertices{};
         std::vector<uint32_t> vert_indicies{};
+        std::vector<Vector3> normals{};
+        std::vector<uint32_t> norm_indicies{};
         Mesh();
     
     public:

@@ -18,9 +18,9 @@
         static Color FromVector(Vector3 vector) {
             Color color;
             Vector3 clamped = vector.clamp_0_1();
-            color.bytes[0] = 255.f * clamped.x; // red
+            color.bytes[2] = 255.f * clamped.x; // red
             color.bytes[1] = 255.f * clamped.y; // green
-            color.bytes[2] = 255.f * clamped.z; // blue
+            color.bytes[0] = 255.f * clamped.z; // blue
             return color;
         }
     };
