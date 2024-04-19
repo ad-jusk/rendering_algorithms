@@ -26,7 +26,7 @@ int main() {
     directionalLight.direction = Vector3{0, -1, 0};
     directionalLight.lightColor = Vector3{1.f, 0.f, 0.f};
     directionalLight.diffuseStrength = 0.5f;
-    directionalLight.specularStrength = 0.9f;
+    directionalLight.specularStrength = 1.f;
     vertexShader->setDirectionalLight(directionalLight);
     simpleShader->setDirectionalLight(directionalLight);
 
@@ -38,6 +38,14 @@ int main() {
     pointLight.specularStrength = 0.0f;
     vertexShader->addPointLight(pointLight);
     simpleShader->addPointLight(pointLight);
+    
+    PointLight pointLight2;
+    pointLight2.position = Vector3{0.f, 0.f, 0.5f};
+    pointLight2.lightColor = Vector3{0.f, 1.f, 0.f};
+    pointLight2.diffuseStrength = 0.5f;
+    pointLight2.specularStrength = 0.0f;
+    vertexShader->addPointLight(pointLight2);
+    simpleShader->addPointLight(pointLight2);
 
     vertexShader->setProjection(Matrix4::Perspective(ToRad(60.f), 1.f, 0.01f, 100.f));
     vertexShader->setView(Matrix4::LookAt(Vector3{0.f, 0.f, 5.f}, Vector3{0.f, 0.f, 0.f}, Vector3{0.f, 1.f, 0.f}));
@@ -59,9 +67,9 @@ int main() {
     simpleShader->setModel(model);
     rasterizer.render(&sphereMesh2, simpleShader.get());
 
-    ConeMesh coneMesh(1.f, 2.f, 6);
-    model = Matrix4::Translation(0.f, 1.5f, 0.f) *
-            Matrix4::RotationX(ToRad(45.f)) *
+    ConeMesh coneMesh(1.f, 2.f, 20);
+    model = Matrix4::Translation(0.f, 1.f, 0.f) *
+            Matrix4::RotationZ(ToRad(180.f)) *
             Matrix4::Scale(0.9f, 0.9f, 0.9f);
     vertexShader->setModel(model);
     rasterizer.render(&coneMesh, vertexShader.get());
