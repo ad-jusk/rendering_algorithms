@@ -36,8 +36,11 @@ ConeMesh::ConeMesh(float radius, float height, uint32_t segmentsNum) {
         vert_indicies.push_back(ii + 1);
     }
 
-    norm_indicies.insert(norm_indicies.end(), vert_indicies.begin(), vert_indicies.end());
+    uv_indicies.insert(uv_indicies.begin(), vert_indicies.begin(), vert_indicies.end());
+    norm_indicies.insert(norm_indicies.begin(), vert_indicies.begin(), vert_indicies.end());
+    
     normals.resize(segmentsNum + 2, Vector3{0.f});
+    uvs.resize(segmentsNum + 2, Vector3{0.f});
     
     for (Vector3& normal : normals) {
         normal = Vector3{0.f};
@@ -55,5 +58,9 @@ ConeMesh::ConeMesh(float radius, float height, uint32_t segmentsNum) {
 
     for (Vector3& normal : normals) {
         normal = normal.normalize();
+    }
+
+    for (const uint32_t& indice : norm_indicies) {
+        uvs[indice] = Vector3{static_cast<float>(std::asin(normals[indice].x) / M_PI + 0.5f), static_cast<float>(std::asin(normals[indice].y) / M_PI + 0.5f), 0.f};
     }
 }

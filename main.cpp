@@ -22,21 +22,21 @@ int main() {
     DirectionalLight directionalLight;
     directionalLight.direction = Vector3{0, -1, 0};
     directionalLight.lightColor = Vector3{1.f, 1.f, 1.f};
-    directionalLight.diffuseStrength = 0.7f;
+    directionalLight.diffuseStrength = 0.9f;
     directionalLight.specularStrength = 0.f;
     simpleShader->setDirectionalLight(directionalLight);
 
     // POINT LIGHT
     PointLight pointLight;
-    pointLight.position = Vector3{0.f, -1.5f, 0.f};
+    pointLight.position = Vector3{0.f, 0.f, 0.f};
     pointLight.lightColor = Vector3{1.f, 1.f, 1.f};
-    pointLight.diffuseStrength = 0.7f;
-    pointLight.specularStrength = 0.0f;
+    pointLight.diffuseStrength = 0.9f;
+    pointLight.specularStrength = 0.f;
     simpleShader->addPointLight(pointLight);
     
     // TEXTURE
-    std::shared_ptr<Texture> brickTexture = std::make_shared<Texture>("../res/textures/brick.png");
-    std::shared_ptr<Texture> grassTexture = std::make_shared<Texture>("../res/textures/grass.jpg");
+    std::shared_ptr<Texture> brickTexture = std::make_shared<Texture>("../res/textures/brick.jpeg");
+    std::shared_ptr<Texture> universeTexture = std::make_shared<Texture>("../res/textures/universe.jpg");
     simpleShader->setTexture(brickTexture);
     simpleShaderNoLight->setTexture(brickTexture);
 
@@ -48,25 +48,25 @@ int main() {
 
     Matrix4 model = Matrix4{1};
 
-    SphereMesh sphereMesh(32);
+    SphereMesh sphereMesh(16);
     model = Matrix4::Translation(-1.5f, -1.f, 0.f) *
-            Matrix4::Scale(1.f, 1.f, 1.f);
+            Matrix4::Scale(1.2f, 1.2f, 1.2f);
     simpleShader->setModel(model);
     rasterizer.render(&sphereMesh, simpleShader.get());
     
-    SphereMesh sphereMesh2(32);
+    SphereMesh sphereMesh2(16);
     model = Matrix4::Translation(1.5f, -1.f, 0.f) *
-            Matrix4::Scale(1.f, 1.f, 1.f);
+            Matrix4::Scale(1.2f, 1.2f, 1.2f);
     simpleShaderNoLight->setModel(model);
     rasterizer.render(&sphereMesh2, simpleShaderNoLight.get());
     
-    SphereMesh sphereMesh3(32);
-
+    ConeMesh coneMesh(1.f, 2.f, 6);
     model = Matrix4::Translation(0.f, 1.5f, 0.f) *
+            Matrix4::RotationZ(ToRad(180.f)) *
             Matrix4::Scale(1.f, 1.f, 1.f);
     simpleShader->setModel(model);
-    simpleShader->setTexture(grassTexture);
-    rasterizer.render(&sphereMesh3, simpleShader.get());
+    simpleShader->setTexture(universeTexture);
+    rasterizer.render(&coneMesh, simpleShader.get());
 
     rasterizer.saveToFile();
 

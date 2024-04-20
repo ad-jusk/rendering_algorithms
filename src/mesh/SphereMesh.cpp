@@ -9,7 +9,6 @@ SphereMesh::SphereMesh(uint32_t segmentsNum) {
     const uint32_t tSize = 2 * vert * horiz;
 
     vertices.resize(vSize);
-    uvs.resize(vSize);
 
     for (uint32_t yy = 0; yy <= horiz + 1; ++yy) {
         const float y = std::cos(static_cast<float>(yy) * static_cast<float>(M_PI) / (horiz + 1.f));
@@ -20,7 +19,6 @@ SphereMesh::SphereMesh(uint32_t segmentsNum) {
             const float z = r * std::sin(2.f * M_PI * rr / vert);
 
             vertices[rr + yy * vert] = Vector3{x, y, z};
-            uvs[rr + yy * vert] = Vector3{yy / (horiz + 1.f) , rr / (vert + 1.f), 0.f};
         }
     }
 
@@ -41,11 +39,14 @@ SphereMesh::SphereMesh(uint32_t segmentsNum) {
         }
     }
 
-    uv_indicies.insert(norm_indicies.end(), vert_indicies.begin(), vert_indicies.end());
-    norm_indicies.insert(norm_indicies.end(), vert_indicies.begin(), vert_indicies.end());
+    uv_indicies.insert(uv_indicies.begin(), vert_indicies.begin(), vert_indicies.end());
+    norm_indicies.insert(norm_indicies.begin(), vert_indicies.begin(), vert_indicies.end());
+
     normals.resize(vSize, Vector3{0.f});
+    uvs.resize(vSize, Vector3{0.f});
 
     for (const uint32_t& indice : norm_indicies) {
         normals[indice] = vertices[indice].normalize();
+        uvs[indice] = Vector3{static_cast<float>(std::asin(normals[indice].x) / M_PI + 0.5f), static_cast<float>(std::asin(normals[indice].y) / M_PI + 0.5f), 0.f};
     }
 }
