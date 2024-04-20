@@ -28,8 +28,8 @@ void Mesh::GetTriangle(uint32_t index, Triangle& triangle) const {
         const uint32_t uv3 = uv_indicies[indiceID + 2];
 
         triangle.uvA = uvs[uv1];
-        triangle.uvB = uvs[uv3];
-        triangle.uvC = uvs[uv2];
+        triangle.uvB = uvs[uv2];
+        triangle.uvC = uvs[uv3];
     }
     else {
         triangle.uvA = Vector3{0.f};

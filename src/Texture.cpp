@@ -23,10 +23,10 @@ Texture::Texture(const std::string& path) : width(0), height(0) {
             const int32_t byteNumber = 3 * (x + width * y);
             
             Color color{};
-            color.bytes[3] = 255.f;
-            color.bytes[2] = texture[byteNumber + 0];
+            color.bytes[0] = texture[byteNumber + 0];
             color.bytes[1] = texture[byteNumber + 1];
-            color.bytes[0] = texture[byteNumber + 2];
+            color.bytes[2] = texture[byteNumber + 2];
+            color.bytes[3] = 255.f;
             
             setPix(x, y, color.hex);
         }
